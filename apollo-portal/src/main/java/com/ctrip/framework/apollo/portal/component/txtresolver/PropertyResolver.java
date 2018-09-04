@@ -33,6 +33,8 @@ public class PropertyResolver implements ConfigTextResolver {
     //remove comment and blank item map.
     oldKeyMapItem.remove("");
 
+    configText = configText.replaceAll("[\r\n]+",ITEM_SEPARATOR);
+
     String[] newItems = configText.split(ITEM_SEPARATOR);
 
     if (isHasRepeatKey(newItems)) {

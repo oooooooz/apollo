@@ -38,6 +38,18 @@
                     <img src="img/release.png">
                     发布
                 </button>
+
+                <!--add by chenhf-->
+                <a ng-href="{{fileUrl}}" download="{{fileName}}" class="hidden" id="dnconfiglink"></a>
+                <button type="button" class="btn btn-default btn-sm"
+                        data-tooltip="tooltip" data-placement="bottom" title="导出配置"
+                        ng-show="(namespace.hasReleasePermission || namespace.hasModifyPermission)"
+                        ng-disabled="namespace.isTextEditing"
+                        ng-click="export($event)">
+                    <img src="img/copy.png">
+                    导出
+                </button>
+
                 <button type="button" class="btn btn-default btn-sm"
                         data-tooltip="tooltip" data-placement="bottom" title="回滚已发布配置"
                         ng-show="namespace.hasReleasePermission"
@@ -201,6 +213,9 @@
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                         <tr>
+                            <!--add by chenhf-->
+                            <th><input type="checkbox" name="checkAllConfig" id="checkAllConfig" ng-checked="configAllSelected" ng-click="toggleConfigsCheckedStatus()"/>
+                                <label  for="checkAllConfig">全选</label></th>
                             <th>发布状态</th>
                             <th class="hover" title="排序"
                                 ng-click="col='item.key';desc=!desc;">
@@ -235,6 +250,11 @@
                         <tr ng-repeat="config in namespace.viewItems |orderBy:col:desc"
                             ng-if="config.item.key"
                             ng-class="{'warning': !config.item.value}">
+                            <!--add by chenhf-->
+                            <td width="5%" class="text-center">
+                                <input type="checkbox" name="checkConfig" id="checkConfig" ng-checked="config.item.checked" ng-click="switchSelect(config.item, $event)"/>
+                            </td>
+
                             <td width="8%" class="text-center">
                             <span class="label label-warning no-radius cursor-pointer" ng-if="config.isModified"
                                   data-tooltip="tooltip" data-placement="bottom" title="点击查看已发布的值"
@@ -257,7 +277,7 @@
                                 <span class="label label-danger" ng-if="config.isDeleted"
                                       data-tooltip="tooltip" data-placement="bottom" title="删除的配置">删</span>
                             </td>
-                            <td width="30%" class="cursor-pointer" title="点击查看" ng-click="showText(config.item.value)">
+                            <td width="20%" class="cursor-pointer" title="点击查看" ng-click="showText(config.item.value)">
                                 <span ng-bind="config.item.value | limitTo: 250"></span>
                                 <span ng-bind="config.item.value.length > 250 ? '...': ''"></span>
                             </td>

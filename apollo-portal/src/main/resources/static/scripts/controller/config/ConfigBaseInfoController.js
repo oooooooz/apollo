@@ -10,7 +10,7 @@ function ConfigBaseInfoController($rootScope, $scope, $window, $location, toastr
                                   PermissionService,
                                   AppUtil) {
 
-    var urlParams = AppUtil.parseParams($location.$$url);
+    var urlParams = AppUtil.parseParams($location.$$url);//$location.$$url="/appid=100004458_demo"
     var appId = urlParams.appid;
 
     if (!appId) {
