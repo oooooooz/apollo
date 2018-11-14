@@ -12,9 +12,13 @@
 		<fileSet>
 			<directory>src/main/scripts</directory>
 			<outputDirectory>scripts</outputDirectory>
-			<includes>
-				<include>*.sh</include>
-			</includes>
+			<!--<includes>-->
+				<!--<include>*.sh</include>-->
+			<!--</includes>-->
+			<!--add by chenhf do not overide config in server-->
+			<excludes>
+				<exclude>*.sh</exclude>
+			</excludes>
 			<fileMode>0755</fileMode>
 			<lineEnding>unix</lineEnding>
 		</fileSet>

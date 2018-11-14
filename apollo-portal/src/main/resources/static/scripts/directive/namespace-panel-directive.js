@@ -1,7 +1,7 @@
 directive_module.directive('apollonspanel', directive);
 
 function directive($window, toastr, AppUtil, EventManager, PermissionService, NamespaceLockService,
-                   UserService, CommitService, ReleaseService, InstanceService, NamespaceBranchService, ConfigService) {
+                   UserService, CommitService, ReleaseService, InstanceService, NamespaceBranchService, ConfigService,$filter,$timeout) {
     return {
         restrict: 'E',
         templateUrl: '../../views/component/namespace-panel.html',
@@ -21,7 +21,8 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
             showNoModifyPermissionDialog: '=',
             preCreateBranch: '=',
             preDeleteBranch: '=',
-            showMergeAndPublishGrayTips: '='
+            showMergeAndPublishGrayTips: '=',
+            namespaces: '='
         },
         link: function (scope) {
 
@@ -64,6 +65,8 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
 
             scope.deleteNamespace = deleteNamespace;
 
+            scope.select = collectSelectedConfigs0;//add by chenhf
+            scope.export = exportConfigs;
             var subscriberId = EventManager.subscribe(EventManager.EventType.UPDATE_GRAY_RELEASE_RULES,
                                                       function (context) {
                                                           useRules(context.branch);
@@ -77,8 +80,33 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
             init();
 
             function init() {
+                scope.selectConfigs = [];//add by chenhf
+                scope.allConfigs = [];
+                scope.configAllSelected = false;
                 initNamespace(scope.namespace);
                 initOther();
+                initConfigDatas(scope.namespaces);//add by chenhf
+              initModuleConfig();
+            }
+
+            //add by chenhf
+            function initConfigDatas (namespaces) {
+                var viewItems;
+                var idx = -1;
+              namespaces.forEach(function (namespace) {
+                viewItems = namespace.items;
+                viewItems.forEach(function (itemBo) {
+                  scope.allConfigs[++idx] = itemBo.item;
+                  //scope.allConfigs[++idx].checked = false;
+                })
+              })
+            }
+
+            function initModuleConfig () {
+              directive_module.config(['$compileProvider',
+                function ($compileProvider) {
+                  $compileProvider.aHrefSanitizationWhitelist(/^\s*(blob):/);//https?|ftp|mailto|tel|file|
+                }]);
             }
 
             function initNamespace(namespace, viewType) {
@@ -855,6 +883,74 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
                 scope.namespace.show = true;
             }, 70);
 
+
+
+          /**
+           * below add by chenhf
+           */
+          scope.switchSelect = function (o, $event) {
+            o.checked = !o.checked;
+            $event.stopPropagation();
+            scope.select(collectSelectedConfigs());
+          };
+
+          scope.toggleConfigCheckedStatus = function (config,$event) {
+            config.checked = !config.checked;
+            $event.stopPropagation();
+            scope.select(collectSelectedConfigs());
+          };
+
+          scope.toggleConfigsCheckedStatus = function () {
+            scope.configAllSelected = !scope.configAllSelected;
+            scope.allConfigs.forEach(function (config) {
+              config.checked = scope.configAllSelected;
+            });
+            scope.select(collectSelectedConfigs());
+          };
+
+          function collectSelectedConfigs() {
+            var selectedConfigs = [];
+            scope.allConfigs.forEach(function (config) {
+              if (config.checked) {
+                selectedConfigs.push(config);
+              }
+            });
+            return selectedConfigs;
+          }
+
+          var selectedConfigs0 = [];
+          function collectSelectedConfigs0 (data) {
+            selectedConfigs0 = data;
+          }
+
+          function exportConfigs ($event) {
+            $event.preventDefault();
+            var configs = [];
+            if(selectedConfigs0.length > 0){
+              selectedConfigs0.forEach(function (item) {
+                  var s = (!item.comment?"":"#".concat(item.comment).concat("\n")).concat(!item.key?"":item.key.concat("=").concat(item.value));
+                  if(s)configs.push(s);
+              })
+              var content= configs.join("\n");
+              var blob = new Blob([content], { type : 'text/plain' });
+              scope.fileUrl = ($window.URL || $window.webkitURL).createObjectURL( blob );
+              scope.fileName = scope.namespace.baseInfo.appId.concat("_").concat($filter('date')(new Date(), "yyyyMMdd")).concat(".properties");
+              // var a = document.createElement("a");
+              //document.body.appendChild(a);
+              // a.href = scope.fileUrl;
+              // a.download = scope.fileName;
+              // a.click();
+              $timeout(function () {
+                  //alert($("#dnconfiglink").attr("ng-href"));
+                $("#dnconfiglink").attr("href",$("#dnconfiglink").attr("ng-href"));
+                //angular.element('#dnconfiglink').trigger('click');
+                $("#dnconfiglink").get(0).click();
+              },0);
+
+            }else{
+              AppUtil.showModal('#exportConfigTipDialog');
+            }
+          }
 
         }
     }

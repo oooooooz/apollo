@@ -191,6 +191,7 @@
 
         <apollonspanel ng-repeat="namespace in namespaces"
                        namespace="namespace"
+                       namespaces="namespaces"
                        app-id="pageContext.appId"
                        env="pageContext.env"
                        lock-check="lockCheck"
@@ -202,7 +203,8 @@
                        show-text="showText"
                        show-no-modify-permission-dialog="showNoModifyPermissionDialog"
                        pre-create-branch="preCreateBranch"
-                       pre-delete-branch="preDeleteBranch">
+                       pre-delete-branch="preDeleteBranch"
+                       >
         </apollonspanel>
 
         <releasemodal app-id="pageContext.appId"
@@ -245,7 +247,8 @@
                              apollo-show-cancel-btn="true" apollo-confirm="deleteItem"></apolloconfirmdialog>
 
         <apolloconfirmdialog apollo-dialog-id="'releaseNoPermissionDialog'" apollo-title="'发布'"
-                             apollo-detail="'您没有发布权限哦~ 请找项目管理员 ' + masterUsers + ' 分配发布权限'"
+                             apollo-detail="'您没有发布权限哦~ 请找项目管理员 ' + master
+                             Users + ' 分配发布权限'"
                              apollo-show-cancel-btn="false"></apolloconfirmdialog>
 
         <apolloconfirmdialog apollo-dialog-id="'modifyNoPermissionDialog'" apollo-title="'申请配置权限'"
@@ -304,6 +307,12 @@
         <apolloconfirmdialog apollo-dialog-id="'deleteNamespaceDenyForPublicNamespaceDialog'"
                              apollo-title="'删除Namespace失败提示'"
                              apollo-detail="deleteNamespaceContext.detailReason">
+        </apolloconfirmdialog>
+
+        <!--add by chenhf-->
+        <apolloconfirmdialog apollo-dialog-id="'exportConfigTipDialog'" apollo-title="'导出配置'"
+                             apollo-detail="'未选择配置'"
+                             apollo-show-cancel-btn="false">
         </apolloconfirmdialog>
 
 

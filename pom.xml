@@ -159,7 +159,8 @@
 			<dependency>
 				<groupId>com.dianping.cat</groupId>
 				<artifactId>cat-client</artifactId>
-				<version>2.2.3</version>
+				<!--<version>2.2.3</version>-->
+				<version>2.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ctrip.platform</groupId>
@@ -312,7 +313,8 @@
 			<!-- ctrip modified -->
 			<!-- removed duplicated javax/persistence classes -->
 			<dependency>
-				<groupId>com.ctrip.3rdparty.tomcat.embed</groupId>
+				<!--com.ctrip.3rdparty.tomcat.embed-->
+				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>
 				<version>8.0.37</version>
 				<exclusions>
@@ -524,24 +526,25 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<version>2.2.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>revision</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<verbose>true</verbose>
-					<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<failOnNoGitDirectory>false</failOnNoGitDirectory>
-				</configuration>
-			</plugin>
+
+			<!--<plugin>-->
+				<!--<groupId>pl.project13.maven</groupId>-->
+				<!--<artifactId>git-commit-id-plugin</artifactId>-->
+				<!--<version>2.2.0</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<goals>-->
+							<!--<goal>revision</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+				<!--<configuration>-->
+					<!--<verbose>true</verbose>-->
+					<!--<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>-->
+					<!--<generateGitPropertiesFile>true</generateGitPropertiesFile>-->
+					<!--<failOnNoGitDirectory>false</failOnNoGitDirectory>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 		</plugins>
 		<resources>
 			<resource>
@@ -728,7 +731,8 @@
 			</dependencyManagement>
 			<dependencies>
 				<dependency>
-					<groupId>com.ctrip.3rdparty.tomcat.embed</groupId>
+					<!--com.ctrip.3rdparty.tomcat.embed-->
+					<groupId>org.apache.tomcat.embed</groupId>
 					<artifactId>tomcat-embed-core</artifactId>
 				</dependency>
 			</dependencies>
@@ -838,7 +842,8 @@
 					<artifactId>cat-client</artifactId>
 				</dependency>
 				<dependency>
-					<groupId>com.ctrip.3rdparty.tomcat.embed</groupId>
+					<!--com.ctrip.3rdparty.tomcat.embed-->
+					<groupId>org.apache.tomcat.embed</groupId>
 					<artifactId>tomcat-embed-core</artifactId>
 				</dependency>
 				<dependency>
@@ -865,6 +870,23 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<!--add by chenhf-->
+		<profile>
+			<id>gnete-dev</id>
+			<properties>
+				<package.environment>gnete</package.environment>
+			</properties>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-devtools</artifactId>
+						<version>1.3.0.RELEASE</version>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
 		</profile>
 	</profiles>
 
