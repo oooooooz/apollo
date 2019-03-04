@@ -5,7 +5,7 @@
 
 	<groupId>com.ctrip.framework.apollo</groupId>
 	<artifactId>apollo</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
 	<name>Apollo</name>
 	<packaging>pom</packaging>
 	<description>Ctrip Configuration Center</description>
@@ -288,12 +288,6 @@
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.4.191</version>
-			</dependency>
-			<!-- stick with mockito 1.x -->
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>1.10.19</version>
 			</dependency>
 			<!-- declare Spring BOMs in order -->
 			<dependency>
@@ -871,6 +865,7 @@
 				</plugins>
 			</build>
 		</profile>
+<<<<<<< HEAD
 
 		<!--add by chenhf-->
 		<profile>
@@ -887,6 +882,53 @@
 					</dependency>
 				</dependencies>
 			</dependencyManagement>
+=======
+		<profile>
+			<id>configdb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-maven-plugin</artifactId>
+						<version>5.2.4</version>
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.46</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<configFile>scripts/db/migration/flyway-configdb.properties</configFile>
+						</configuration>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>portaldb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-maven-plugin</artifactId>
+						<version>5.2.4</version>
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.46</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<configFile>scripts/db/migration/flyway-portaldb.properties</configFile>
+						</configuration>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
+>>>>>>> upstream/master
 		</profile>
 	</profiles>
 

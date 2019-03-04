@@ -25,4 +25,8 @@ target
 
 # git
 *.orig
+<<<<<<< HEAD
 .svn
+=======
+
+>>>>>>> upstream/master
