@@ -22,12 +22,9 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
             preCreateBranch: '=',
             preDeleteBranch: '=',
             showMergeAndPublishGrayTips: '=',
-<<<<<<< HEAD
-            namespaces: '='
-=======
+            namespaces: '=',
             showBody: "=?",
             lazyLoad: "=?"
->>>>>>> upstream/master
         },
         link: function (scope) {
 
@@ -107,8 +104,6 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
                 scope.configAllSelected = false;
                 initNamespace(scope.namespace);
                 initOther();
-<<<<<<< HEAD
-                initConfigDatas(scope.namespaces);//add by chenhf
               initModuleConfig();
             }
 
@@ -130,14 +125,12 @@ function directive($window, toastr, AppUtil, EventManager, PermissionService, Na
                 function ($compileProvider) {
                   $compileProvider.aHrefSanitizationWhitelist(/^\s*(blob):/);//https?|ftp|mailto|tel|file|
                 }]);
-=======
                 scope.namespace.initialized = true;
             }
 
             function refreshNamespace() {
                 EventManager.emit(EventManager.EventType.REFRESH_NAMESPACE,
                                   {namespace: scope.namespace});
->>>>>>> upstream/master
             }
 
             function initNamespace(namespace, viewType) {

@@ -5,7 +5,9 @@
 
 	<groupId>com.ctrip.framework.apollo</groupId>
 	<artifactId>apollo</artifactId>
+
 	<version>1.4.0-SNAPSHOT</version>
+
 	<name>Apollo</name>
 	<packaging>pom</packaging>
 	<description>Ctrip Configuration Center</description>
@@ -865,24 +867,6 @@
 				</plugins>
 			</build>
 		</profile>
-<<<<<<< HEAD
-
-		<!--add by chenhf-->
-		<profile>
-			<id>gnete-dev</id>
-			<properties>
-				<package.environment>gnete</package.environment>
-			</properties>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-devtools</artifactId>
-						<version>1.3.0.RELEASE</version>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
-=======
 		<profile>
 			<id>configdb</id>
 			<build>
@@ -928,7 +912,6 @@
 					</plugin>
 				</plugins>
 			</build>
->>>>>>> upstream/master
 		</profile>
 	</profiles>
 
@@ -985,15 +968,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>${releases.repo}</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<url>${snapshots.repo}</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>
 
